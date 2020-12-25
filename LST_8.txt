@@ -1,0 +1,53 @@
+This challenge is about MySQL databses.
+The objective is to find a file named employees.sql and read the
+database for a flag.
+
+The directory of the file employees.sql is:
+./serverLx/
+
+So, I start mysql in said directory and use the following command :
+mysql -u sarah -p
+P.S: The password is password
+
+Next, I load the file as follows :
+source employees.sql
+
+Once the loading is done, I list out the databases contained :
+show databases;
+
+The only database that stands out is : employees
+
+Next, I navigate into the database by using the following command :
+use employees;
+
+I list out the tables in the database as follows :
+show tables;
+
+8 tables are listed. I list out the schema of the table by using :
+describe [TABLE-NAME]
+and check only the tables that can contain one or more varchar columns.
+This is because the flag is a string.
+
+But just to be sure, I count the number of rows in the tables
+containing the varchar columns too. I don't want a huge list of rows.
+
+The first tables turn out to be unsuspecting. But then, the table named
+employees contains 300024 rows.
+
+After a quick google search about how to locate substrings in mysql,
+I came across this link :
+https://www.w3resource.com/mysql/string-functions/mysql-locate-function.php
+
+Using the example in this link as a reference, I use the following command :
+select * from employees where LOCATE('Flag',first_name)>0 OR LOCATE('Flag',last_name)>0;
+
+The first_name and last_name columns are used in the above command because,
+these are the columns that use a varchar data-type.
+
+The above command resulted in a single row - the row of emp_no 499973.
+This row contained the flag in the last_name column.
+
+
+Although this is the method I followed, there is probably a better way
+out there and so, it is advisable to read walkthrough articles of the
+Linux Strength Training room on the internet.
