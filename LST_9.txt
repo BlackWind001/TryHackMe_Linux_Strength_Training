@@ -1,0 +1,110 @@
+The task contains quite a few objectives.
+To start at the beginning, I am asked to read the conversation in a chat log in the file LpnQ.
+The file contents are as follows :
+
+(2020-08-13) Sarah: Hey Lucy, what happened to the database server? It is completely down now!
+(2020-08-13) Lucy: Yes, I believe we have had a problem. I will need to investigate but for now there will be downtime for who knows how long.
+(2020-08-13) Sarah: That is a shame, I needed to refer to a customer’s record due to them being unhappy with our service yesterday.
+(2020-08-13) Lucy: if you ask Sameer, he may be able to help you find the back-up database copy we made a few hours ago?
+(2020-08-13) Sarah: Of course, he is one of the sql developers around here in charge of the database creation, I will ask him in a few minutes. Thank you.
+(2020-08-13) Lucy: No problem. By the way, our new security engineer may have accidently stored the SSH password of one of our employees. I have no idea how to change it and he will not be back till tomorrow.
+(2020-08-13) Sarah: That is a shame. I am sure we will all be fine till he returns. Do you know which employee it is?
+(2020-08-13) Lucy: I think it may have affected James but I not entirely sure.
+(2020-08-13) Sarah: That is terrible, but I am sure nothing will come of it, he will be back tomorrow.
+(2020-08-13) Lucy: True. It is just a concern of mine because James is the only one with root access. But as you said, we should be ok. Talk to you later. Bye.
+
+I don't have much of an idea so I check the hint which tells me to search for people's names in the chat.
+Since Sarah stated that she would talk to Sameer in the above conversation I check for Sameer's name in the chats with the following command :
+grep -iRl --color Sameer .
+The output of the above command is as follows :
+./Pqmr
+./LpnQ
+./KfnP
+
+The file LpnQ contains the above chat - so I can ignore it.
+The other 2 files are unchecked and so we check them one by one.
+
+Pqmr :
+(2020-08-13) Sarah: Hey Sameer, do you by any chance no where I can find the sql back-up copy on this system? The database server is down, and I really need to help a customer out.
+(2020-08-13) Sameer: Sure. let me check.
+(2020-08-13) Sarah: Thanks.
+(2020-08-13) Sameer: check the home/shared/sql/ directory. It should be in there with the date of today.
+(2020-08-13) Sarah: Thank you Sameer.
+(2020-08-13) Sameer: No problem. It probably is encrypted. Just use the password: danepon.
+(2020-08-13) Sarah: OK, thank you.
+(2020-08-13) Sameer: No problem
+(2020-08-13) Sameer: By the way, if you have any issues just talk to Michael as I will be off for the remainder of the day. See you tomorrow. Bye.
+(2020-08-13) Sarah: Bye.
+
+KfnP :
+(2020-08-13) Sarah: Michael, I have been having trouble accessing the sql database back-up copy made today. Sameer gave me the password, but it just will not work?
+(2020-08-13) Michael: Ah, yes. I remember, the security engineer was testing out a new automated software for creating sql database backups. He must have configured it to encrypt the backups with a different password.
+(2020-08-13) Sarah: So how can I get a hold of it?
+(2020-08-13) Michael: Good question. From what I remember the test program utilised a configuration file around 50mb. It is located inside the home/shared/sql/conf directory. This configuration file contained the directory location of a wordlist it used to randomly select a password from for encrypting the sql back-up copies with.
+(2020-08-13) Sarah: I do not really understand the last part?
+(2020-08-13) Michael: once you find the configuration file and consequently the wordlist directory, visit it. One of those wordlists must contain the password it used for the testing. All I remember is that the password began with ebq. You will need Sameer’s account. His SSH password is: thegreatestpasswordever000.
+(2020-08-13) Sarah: Thank you, I will try to find it.
+
+In the KfnP file, I get Sameer's ssh password which is the answer to the first question.
+
+Now, after reading the conversation in Pqmr and trying to decrypt the 2020-08-13.zip.gpg file with the key 'danepon', I see that the decryption failed.
+
+So, now I'll check KfnP to get more clues.
+I check the conf folder for a file whose size is about 50MB using the following command :
+find ./conf -type f -size 50M
+The output of the above command is :
+./conf/JKpN
+Note: I can also find the file by checking the size of individual files using the `ls -l` command.
+
+Since the file is 50MB, I use the less command to read it :
+less ./conf/JKpN
+And the top few lines of the above command's output read the following :
+Software: sql auto-back-up
+Version: 2.3
+Wordlist directory: aG9tZS9zYW1lZXIvSGlzdG9yeSBMQi9sYWJtaW5kL2xhdGVzdEJ1aWxkL2NvbmZpZ0JEQgo=
+sql-encrypt: true
+time: 2h*
+user: none
+
+Since the value of the Wordlist directory contains an '=' character, I thought that the value might not be a base64 string but a hash instead.
+However, `hash-identifier` was unable to find it and so, I went to the following link: https://gchq.github.io/CyberChef/
+which I remember from the Advent of Cyber room. I typed the above value of wordlist directory in it and turns out, it IS a base64 encoded string.
+The decoded value of the base64 string is :
+home/sameer/History LB/labmind/latestBuild/configBDB
+
+I find the files containing passwords that begin with ebq as follows :
+grep -iR ebq .
+
+And I get 3 files as outputs. Now in these 3 files put together there are about 10 passwords that begin with ebq.
+I want to get the gpg file to my local machine and use gpg2john to execute this process but the scp to get the gpg file was taking too long.
+So, while the scp command was trying to download the entire 2020-08-13.zip.gpg file onto my local machine, I started trying individual passwords.
+I got the password before the download completed so I had the zip file ready. (I stopped the download to my local machine.)
+I used the unzip command and now I was left with a directory.
+I see a few .sql files and a README file.
+The README file specifically states to check the employees.sql file.
+So, after the following commands :
+mysql -u sameer -p
+source employees.sql
+show databases;
+I see that there is an employees database and I execute the following commands :
+use employees;
+show tables;
+I see an employees table and perform the following commands :
+describe employees; (to check for varchars)
+select * from employees where LOWER(first_name)=LOWER('james') or LOWER(last_name)=LOWER('james');
+And there was one result.
+James' SSH password was in the last_name value of the result.
+That answered another question.
+
+The next step is to login as james and then change the user to root.
+I did that using the following commands :
+su james
+sudo -s
+Now, my task was to check all the files in all the directories for the root flag.
+I did that using the following command in the '/' folder :
+grep -iRl 'Flag{' . >> /home/james/results.txt
+The above grep was taking quite some time. So after a while, I checked the results that the above grep had landed in the /home/james/results.txt file.
+It showed the following result :
+/root/root.txt
+
+I got the flag from there and finished the room.
