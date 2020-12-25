@@ -1,0 +1,27 @@
+The first question is to crack the hash given in the file LST_3_hash1.txt
+I used an online tool for this because I didn't have John installed on WSL2 back then.
+Since, the format was given (MD5), this task was quite easy.
+Next, I connected to the remote machine and cracked the hash in the file hashA.txt (which I had to find using the FIND command) using John on WSL2.
+But first I had to find the type of hash.
+Using the tool `hash-identifier` on Kali, the output showed that the likely hash was MD5. But this was not right, since the aswer did not match on TryHackMe. Next, I used an online tool called Hash Analyzer and the result said that it might be MD4.
+So, using the following command in my WSL Kali, 
+john --format=raw-md4 --wordlist=./rockyou.txt hashA.txt
+
+Next I find the file hashB.txt using the find command
+ITs location is :
+./oldLogs/settings/craft/hashB.txt
+
+The next task is to find a wordlist with extension .mnf.
+Its location is :
+./system AB/db/ww.mnf
+Next, we find the location pf hashC.txt
+Its location is :
+./system AB/server_mail/hashC.txt
+Found the password to the hash using the following command :
+john --format=raw-sha256 --wordlist=ww.mnf hashC.txt
+P.S: I found the hash type using the hash-identifier command.
+
+The final question in this task is the value of the password obtained by cracking hashB.txt. I had already done this when I found out the hash type for it so I remembered the value and submitted the answer.
+Note: I found the following link more useful than the John-The-Ripper documentation: https://www.hackingarticles.in/beginner-guide-john-the-ripper-part-1/
+In the above link, different formats are listed and since I had a problem with formats, I found this to be very helpful. The link also provides a command to list all available formats in John which is :
+john --list=formats
