@@ -1,0 +1,24 @@
+The assignment is to find an encrypted file called personal.txt.gpg and a
+wordlist called data.txt. Apparently, I need to use "tac" to reverse the 
+wordlist before brute-forcing the encrypted file.
+
+The location of personal.txt.gpg and the data.txt files are as follows :
+./oldLogs/units/personal.txt.gpg
+./logs/zmn/old stuff/-mvLp/data.txt
+
+Next I use the gpg2john command as follows :
+gpg2john ./personal.txt.gpg > GPGHashFile
+
+Next, I will run john on the above hash file as follows :
+john -format=gpg -wordlist=data.txt GPGHashFile
+*****But******
+Since they instructions say that we need to reverse the wordlist,
+I first do the following :
+tac data.txt > reversed_data.txt
+And change the above command to :
+john -format=gpg -wordlist=reversed_data.txt GPGHashFile
+
+Thus, I was able to obtain the password.
+Now, using that password, I can decrypt the file as follows:
+gpg personal.txt.gpg
+to obtain the information in the encrypted file.
