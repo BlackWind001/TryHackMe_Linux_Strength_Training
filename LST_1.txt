@@ -1,0 +1,25 @@
+Location of the addtionalHINT file mentioned in the ReadMeIfStuck.txt file:
+./channels/additionalHINT
+Output of the additionalHINT file from the above location:
+try to find a directory called telephone numbers... Oh wait.. it  contains a space.. I wonder how we can find that....
+Location of the telephone numbers directory mentioned in the above output \n
+./corperateFiles/xch/telephone numbers
+Files in the telephone numbers directory found in the above line:
+readME.txt
+Contents of the readME.txt file found in the telephone directory:
+202-555-0150
+202-555-0125
+617-555-0115
++1-617-555-0115
++1-617-555-0186
++1-617-555-0138
+use the Find command to find a file with a modified date of 2016-09-12 from the /workflows directory
+The command to be used to find the file AT a modified date is as follows:
+find ./workflows/ -type f -newermt 2016-09-11 ! -newermt 2016-09-13
+The output of the above command is :
+./workflows/xft/eBQRhHvx
+The output of the file found above is:
+The output is very long so just cat it yourself.
+I had to take a hint for this. I checked the internet for Linux Strength Training.
+So, when I tried to find the keyword 'flag', I did not get any result using less command
+On the other hand, the Medium article I checked suggested searching for 'Flag' which I did and got the flag which is Flag{************}

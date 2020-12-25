@@ -1,0 +1,29 @@
+The objective is to get the flag using the instructions from the readME_hint.txt file.
+That is once I find the readME_hint.txt file.
+find ./ -type f -name readME_hint.txt
+./corperateFiles/RecordsFinances/readME_hint.txt
+The contents of the readME_txt file are as follows
+Instructions: Move the MoveMe.txt file to the march folder directory and then execute the SH program to reveal the second flag.
+
+ you need to research three things:
+				 how to execute bash files
+				 how to work with files that begin with a - (dash) whether that is to do with copying or moving files 
+				 how to work with files with spaces
+                                   
+
+The contents of the direcotry containing the above file are as follows:
+ajkJji
+CeCJDJ
+GxPtUIo
+hHYDeM
+january
+-march folder
+-MoveMe.txt
+readME_hint.txt
+uIkmHPN
+
+The location of the folder is ./corperateFiles/RecordsFinances/ in topson's home directory
+Note that the command needs to be executed from within the above mentioned directory or an error will be thrown.
+EDIT: The directory to be present in is NOT the above mentioed directory but actually the '-march folder' directory INSIDE the above mentioned directory.
+
+Once the bash file is run from the '-march folder' directory, the flag is shown.

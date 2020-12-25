@@ -1,0 +1,36 @@
+The objective is to find a file called encoded.txt and use it to get a special answer.
+
+The location of the file is:
+./system AB/managed/encoded.txt
+
+This file is base64 encoded. So, in order to decode it, I will use the following command :
+base64 -d encoded.txt > decoded.txt
+
+The first lines of the decoded file state that I need to search for a keyword "special"
+in the entire decoded file (which is very long) to get hints about what to do next.
+
+The location(s) of the keyword "special" in the decoded file are as follows :
+you know how to decode base64 data, well done. you deserve the answer but because this is the
+ linux strength training room where you are intended to build your linux memory and skills, you
+ will have to find it in this very long text file. Look for the keyword: 'special' in this very
+ large text file.
+Nullam nibh diam, gravida vestibulum mi sed, consectetur tincidunt nunc. Morbi pharetra turpis
+ nec ligula pellentesque lobortis. Aenean sit amet ullamcorper turpis. Nam id magna sed felis
+ facilisis accumsan. Aliquam cursus dolor eu enim maximus, eu malesuada sapien dignissim.
+ Suspendisse ultrices condimentum nisi et pellentesque. Fusce ornare aliquet quam, eu efficitur
+ elit facilisis et. Donec special: the answer is in a file called ent.txt, find it sagittis dolor
+ nulla, interdum auctor tortor accumsan et. Aliquam vitae egestas dui, ut condimentum magna.
+ Vestibulum tellus lacus, sollicitudin vitae dui sed, bibendum fermentum lacus. Mauris diam leo,
+ efficitur at mi iaculis, sagittis hendrerit justo. Vivamus ante odio, cursus id tristique vitae,
+ dapibus id eros. Quisque vitae mauris massa. Phasellus ut lectus efficitur, vulputate leo et,
+ facilisis metus. Nulla volutpat nulla sem, vel vestibulum libero ultricies eu. Nam pulvinar
+ tincidunt metus et accumsan.
+
+As can be seen after running the above command, the answer is supposedly in a file called ent.txt.
+
+The location of the file ent.txt is :
+./logs/zhc/ent.txt
+
+On checking the contents of the file, I find a hash. I use the website crackstation.net to find the type of hash it is
+since John-The-Ripper was acting up when I tried to decode the hash after finding the format using hash-identifier.
+Since crackstation.net also provides the decoded string, I got the special answer.
