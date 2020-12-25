@@ -1,0 +1,29 @@
+The assignment is to find a file named layer4.txt whose password is bob
+and use it to find the flag.
+The location of the file is :
+./system AB/keys/vnmA/layer4.txt
+
+THe command to decrypt this file is:
+gpg ./system\ AM/keys/vnma/layer4.txt
+Then enter the password and type a name for the decrypted file.
+
+The contents of the decrypted file are:
+1. Find a file called layer3.txt, its password is james.
+
+The location of layer3.txt is :
+./oldLogs/2014-02-15/layer3.txt
+The contents of the decrypted layer3 file are :
+1. Find a file called layer2.txt, its password is tony.
+
+The location of layer2.txt is :
+./oldLogs/settings/layer2.txt
+The contents of the decrypted above file are :
+MS4gRmluZCBhIGZpbGUgY2FsbGVkIGxheWVyMS50eHQsIGl0cyBwYXNzd29yZCBpcyBoYWNrZWQu
+THe above contents are base-64 encoded.
+The resultant text after decoding it are :
+1. Find a file called layer1.txt, its password is hacked.
+
+The location of the layer1.txt file is :
+./logs/zmn/layer1.txt
+The contents of the layer1.txt file after decrypting are :
+Flag{*************}
